@@ -1,0 +1,38 @@
+<!-- app/views/tasks/index.html.erb -->
+<h1 class="todoshead"> TODOS List </h1>
+
+<div class="frame">
+  <div id="tasks">
+    <div class="tasks-form">
+      <%= render "form", task: @task %>
+      <h1>Name</h1>
+
+      <div>
+        <% if @tasks.present? %>
+          <!-- Wrap tasks in a Turbo Frame -->
+          <turbo-frame id="tasks_list">
+            <%= render @tasks %>
+          </turbo-frame>
+        <% else %>
+          <p>No tasks available</p>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <div class="Tasks_Category">
+    <h1>Tasks by Category</h1>
+    <% @categories.each do |category| %>
+      <h2><%= category.name %></h2>
+      <ul>
+        <turbo-frame id="category_<%= category.id %>_tasks">
+          <% category.tasks.each do |task| %>
+            <li>
+              <%= render "task", task: task %>
+            </li>
+          <% end %>
+        </turbo-frame>
+      </ul>
+    <% end %>
+  </div>
+</div>
